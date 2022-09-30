@@ -1,5 +1,6 @@
 package sistemabancario;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
 
@@ -37,6 +38,36 @@ public class GerenciadoraClienteTest {
 		assertThat(cliente2.getEmail(), is("gabriel@gmail.com"));
 		
 		
+	}
+	
+
+	@Test
+	public void testeRemoveCliente() {
+		//Montagem do cenário
+		Cliente cliente05 = new Cliente(5, "Pedro", 40, "pedroC@gmail.com", 3, true);
+		Cliente cliente06 = new Cliente(6, "Katarina", 41, "katarinaP@gmail.com", 4, true);
+		
+		List<Cliente> clientes = new ArrayList<>();
+		clientes.add(cliente05);
+		clientes.add(cliente06);
+		
+		GerenciadoraClientes gerClientes = new GerenciadoraClientes(clientes);
+		
+		//Fase de execução
+		boolean clienteRemovido01 = gerClientes.removeCliente(5);
+		
+		//Análise do resultado esperado
+		assertThat(clienteRemovido01, is(true));//Retorna que o cliente foi remvido.		
+		assertThat(gerClientes.getClientesDoBanco().size(), is(1));//Esse método verifica o tamanho da lista e se o cliente realmente foi removido.
+		assertNull(gerClientes.pesquisaCliente(5));//Esse método verifica se o cliente excluído está na lista.
+		
+		//Fase de execução
+		boolean clienteRemovido02 = gerClientes.removeCliente(6);
+		
+		//Análise do resultado esperado
+		assertThat(clienteRemovido02, is(true));//Retorna que o cliente foi remvido.		
+		assertThat(gerClientes.getClientesDoBanco().size(), is(0));//Esse método verifica o tamanho da lista e se o cliente realmente foi removido.
+		assertNull(gerClientes.pesquisaCliente(6));//Esse método verifica se o cliente excluído está na lista.
 	}
 	
 	
